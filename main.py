@@ -6,6 +6,7 @@ pygame.init()
 
 
 def main():
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}\nScreen height: {SCREEN_HEIGHT}")
@@ -13,6 +14,10 @@ def main():
     dt = 0
     clock = pygame.time.Clock()
 
+
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
     new_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
@@ -21,8 +26,9 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
-        new_player.update(dt)
-        new_player.draw(screen)
+        updatable.update(dt)
+        for icon in drawable:
+            icon.draw(screen)
         pygame.display.flip()
         clock.tick(60)
         dt = clock.tick(60) / 60
